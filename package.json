@@ -1,0 +1,8 @@
+{
+  "name": "srta-emily-ecommerce",
+  "version": "0.1.0",
+  "description": "Repositório do ecommerce",
+  "main": "index.js",
+  "author": "Lucas Ferreira <lsferreirapel@gmail.com>",
+  "license": "MIT"
+}
