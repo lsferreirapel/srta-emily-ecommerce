@@ -1,7 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-import { IsNotEmpty } from 'class-validator/types/decorator/common/IsNotEmpty';
-import { MaxLength } from 'class-validator/types/decorator/string/MaxLength';
-import { IsBoolean, IsPositive, Max, Min } from 'class-validator';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
+import { IsBoolean, IsPositive, Max, Min, IsNotEmpty, MaxLength } from 'class-validator';
+
+import Category from './Category';
+import Size from './Size';
+import Picture from './Picture';
 
 @Entity('products')
 export default class Product {
@@ -23,9 +25,24 @@ export default class Product {
   @MaxLength(30)
   brand: string;
 
-  // categories: Category[];
-  // sizes: Size[];
-  // pictures: Picture[];
+  @ManyToMany(type => Category, products => Product, {
+    eager: true,
+    cascade: ['insert', 'update']
+  })
+  @JoinTable()
+  categories: Category[];
+
+  @ManyToMany(type => Size, products => Product, {
+    eager: true,
+    cascade: ['insert', 'update']
+  })
+  @JoinTable()
+  sizes: Size[];
+
+  @OneToMany(type => Picture, product => Product, {
+    cascade: ['insert', 'update']
+  })
+  pictures: Picture[];
 
   @Column()
   @IsNotEmpty()
@@ -59,4 +76,10 @@ export default class Product {
   @IsNotEmpty()
   @IsPositive()
   countInStock: number;
+
+  @CreateDateColumn({ name: 'created_At' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_At' })
+  updatedAt: Date;
 }
