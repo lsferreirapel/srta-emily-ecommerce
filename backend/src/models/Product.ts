@@ -1,5 +1,23 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
-import { IsBoolean, IsPositive, Max, Min, IsNotEmpty, MaxLength } from 'class-validator';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
+} from 'typeorm';
+import {
+  IsBoolean,
+  IsPositive,
+  Max,
+  Min,
+  IsNotEmpty,
+  MaxLength,
+} from 'class-validator';
 
 import Category from './Category';
 import Size from './Size';
@@ -27,20 +45,20 @@ export default class Product {
 
   @ManyToMany(type => Category, products => Product, {
     eager: true,
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   @JoinTable()
   categories: Category[];
 
   @ManyToMany(type => Size, products => Product, {
     eager: true,
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   @JoinTable()
   sizes: Size[];
 
   @OneToMany(type => Picture, product => Product, {
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   pictures: Picture[];
 

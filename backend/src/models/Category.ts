@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
+} from 'typeorm';
 import { IsNotEmpty, MaxLength } from 'class-validator';
 
 import Product from './Product';
@@ -15,7 +23,7 @@ export default class Category {
   name: string;
 
   @ManyToMany(type => Product, categories => Category, {
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   products: Product[];
 

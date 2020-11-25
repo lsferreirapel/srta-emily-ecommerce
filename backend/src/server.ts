@@ -7,7 +7,7 @@ import './database/conection';
 import routes from './routes';
 
 // Create a new express instance
-console.log('[EXPRESS] creating a new server')
+console.log('[EXPRESS] creating a new server');
 const app = express();
 
 app.use(cors());

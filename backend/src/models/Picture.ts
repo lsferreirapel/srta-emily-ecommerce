@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 
 import Product from './Product';
@@ -15,12 +22,12 @@ export default class Picture {
 
   @ManyToOne(type => Color, pictures => Picture, {
     eager: true,
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   color: Color;
 
   @ManyToOne(type => Product, pictures => Picture, {
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   product: Product;
 

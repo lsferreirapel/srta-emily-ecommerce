@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { IsNotEmpty, MaxLength } from 'class-validator';
 
 import Product from './Product';
@@ -14,7 +21,7 @@ export default class Size {
   name: string;
 
   @ManyToMany(type => Product, sizes => Size, {
-    cascade: ['insert', 'update']
+    cascade: ['insert', 'update'],
   })
   products: Product[];
 
@@ -24,4 +31,3 @@ export default class Size {
   @UpdateDateColumn({ name: 'updated_At' })
   updatedAt: Date;
 }
-
