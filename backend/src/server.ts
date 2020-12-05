@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
+import 'reflect-metadata';
 import 'express-async-errors';
 import './database/conection';
 
@@ -16,4 +17,4 @@ app.use(express.json());
 // Use all imported routes to
 app.use(routes);
 
-app.listen(3333, () => console.log('Web server listening on port 3333'));
+app.listen(3333, () => console.log('🔥 Web server listening on port 3333'));

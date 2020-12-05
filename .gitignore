@@ -5,6 +5,10 @@ node_modules/
 /.pnp
 .pnp.js
 
+#database
+.sqlite
+backend/src/database/database.sqlite
+
 # testing
 /coverage
 

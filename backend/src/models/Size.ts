@@ -4,6 +4,7 @@ import {
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { IsNotEmpty, MaxLength } from 'class-validator';
@@ -11,6 +12,7 @@ import { IsNotEmpty, MaxLength } from 'class-validator';
 import Product from './Product';
 
 @Entity('sizes')
+@Unique(['name'])
 export default class Size {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -20,9 +22,7 @@ export default class Size {
   @MaxLength(3)
   name: string;
 
-  @ManyToMany(type => Product, sizes => Size, {
-    cascade: ['insert', 'update'],
-  })
+  @ManyToMany(() => Product, product => product.sizes)
   products: Product[];
 
   @CreateDateColumn({ name: 'created_At' })

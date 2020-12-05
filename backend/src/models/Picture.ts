@@ -4,14 +4,19 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
+
+// Validators
 import { IsNotEmpty } from 'class-validator';
 
+// Models
 import Product from './Product';
 import Color from './Color';
 
 @Entity('pictures')
+@Unique(['path'])
 export default class Picture {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -20,15 +25,10 @@ export default class Picture {
   @IsNotEmpty()
   path: string;
 
-  @ManyToOne(type => Color, pictures => Picture, {
-    eager: true,
-    cascade: ['insert', 'update'],
-  })
+  @ManyToOne(() => Color, color => color.pictures)
   color: Color;
 
-  @ManyToOne(type => Product, pictures => Picture, {
-    cascade: ['insert', 'update'],
-  })
+  @ManyToOne(() => Product, product => product.pictures)
   product: Product;
 
   @CreateDateColumn({ name: 'created_At' })

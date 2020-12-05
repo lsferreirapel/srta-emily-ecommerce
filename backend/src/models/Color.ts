@@ -1,9 +1,19 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+
+// Validators
 import { IsNotEmpty, IsRgbColor, MaxLength } from 'class-validator';
 
+// Models
 import Picture from './Picture';
 
 @Entity('colors')
+@Unique(['name', 'rgb'])
 export default class Color {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -18,6 +28,6 @@ export default class Color {
   @IsRgbColor()
   rgb: string;
 
-  @ManyToOne(type => Picture, color => Color)
+  @OneToMany(() => Picture, picture => picture.color)
   pictures: Picture[];
 }
