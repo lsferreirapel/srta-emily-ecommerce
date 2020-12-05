@@ -8,6 +8,7 @@ node_modules/
 #database
 .sqlite
 backend/src/database/database.sqlite
+uploads/
 
 # testing
 /coverage

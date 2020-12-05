@@ -63,7 +63,9 @@ export default class Product {
   @JoinTable()
   sizes: Size[];
 
-  @OneToMany(() => Picture, picture => picture.product)
+  @OneToMany(() => Picture, picture => picture.product, {
+    cascade: true,
+  })
   pictures: Picture[];
 
   @Column()

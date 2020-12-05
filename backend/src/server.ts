@@ -14,7 +14,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Use all imported routes to
+// Use my routes
 app.use(routes);
 
+// Server start
 app.listen(3333, () => console.log('🔥 Web server listening on port 3333'));

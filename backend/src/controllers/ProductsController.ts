@@ -5,6 +5,7 @@ import { getRepository } from 'typeorm';
 import Product from '../models/Product';
 import Category from '../models/Category';
 import Size from '../models/Size';
+import Picture from '../models/Picture';
 
 export default {
   async index(request: Request, response: Response): Promise<Response> {
@@ -46,22 +47,33 @@ export default {
         countInStock,
       } = request.body;
 
+      // Get pictures from request files
+      const requestImages = request.files as Express.Multer.File[];
+
+      // Create a array of Image
+      const pictures: Picture[] = requestImages.map(pic => {
+        const picture = new Picture();
+        picture.path = pic.filename;
+
+        return picture;
+      });
+
       // Create a new instance of Product
       const product = productsRepository.create({
         name,
         description,
         brand,
-        price,
-        interest,
+        price: parseFloat(price),
+        interest: parseInt(interest, 10),
         categories: [],
         sizes: [],
-        pictures: [],
-        discount,
-        freeShipping,
-        isNew,
-        rating,
-        numberOfReviews,
-        countInStock,
+        pictures,
+        discount: parseInt(discount, 10),
+        freeShipping: freeShipping === 'true',
+        isNew: isNew === 'true',
+        rating: parseInt(rating, 10),
+        numberOfReviews: parseInt(numberOfReviews, 10),
+        countInStock: parseInt(countInStock, 10),
       });
 
       // Validate if the paramters are valid
@@ -75,9 +87,9 @@ export default {
         // Search categories on DB
         const categories = await categoriesRepository.find({
           relations: ['products'],
-          where: categoriesID.map((id: number) => {
+          where: categoriesID.map((id: string) => {
             return {
-              id,
+              id: parseInt(id, 10),
             };
           }),
         });
@@ -87,9 +99,9 @@ export default {
         // Search sizes on DB
         const sizes = await sizesRepository.find({
           relations: ['products'],
-          where: sizesID.map((id: number) => {
+          where: sizesID.map((id: string) => {
             return {
-              id,
+              id: parseInt(id, 10),
             };
           }),
         });
