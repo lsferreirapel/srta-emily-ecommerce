@@ -19,34 +19,34 @@ export default {
     return response.json(categories);
   },
 
-  async create(request: Request, response: Response): Promise<void> {
-    // Get param from body
-    const { name } = request.body;
-
-    // Create a new instance of Product
-    const category = new Category();
-    category.name = name;
-
-    // Validate if the paramters are valid
-    const validateErrors = await validate(category, {
-      validationError: { target: false },
-    });
-    if (validateErrors.length > 0) {
-      response.status(400).send(validateErrors);
-      return;
-    }
-
-    // Create and save new Category table on DB
+  async create(request: Request, response: Response): Promise<Response> {
     try {
-      const categoryRepository = getRepository(Category);
-      const createdCategory = categoryRepository.create(category);
-      await categoryRepository.save(createdCategory);
-    } catch (error) {
-      response.status(400).json({ error });
-      return;
-    }
+      // Get Repository
+      const categoriesRepository = getRepository(Category);
 
-    // If all ok, send 201 response
-    response.status(201).json(category);
+      // Get param from body
+      const { name } = request.body;
+
+      // Create a new instance of Product
+      const category = categoriesRepository.create({ name });
+
+      // Validate if the paramters are valid
+      const validateErrors = await validate(category);
+
+      // If there isn't an error
+      if (validateErrors.length === 0) {
+        // Save category on data base
+        const createdCategory = await categoriesRepository.save(category);
+
+        // All ok, send 201 response
+        return response.status(201).json(createdCategory);
+      }
+
+      // Else return a 400 status and error(s)
+      return response.status(400).json(validateErrors);
+    } catch (error) {
+      console.log('error.message =>>', error.message);
+      return response.status(400).json({ error: error.message });
+    }
   },
 };

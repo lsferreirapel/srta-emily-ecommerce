@@ -38,7 +38,6 @@ export default {
         interest,
         categoriesID,
         sizesID,
-        // pictures, need be implemented
         discount,
         freeShipping,
         isNew,
@@ -93,8 +92,9 @@ export default {
             };
           }),
         });
+
         // Save categories on product
-        createdProduct.categories.push(...categories);
+        createdProduct.categories.push(...(await categories));
 
         // Search sizes on DB
         const sizes = await sizesRepository.find({
