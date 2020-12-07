@@ -2,14 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
 } from 'typeorm';
+
+// Validators
 import {
   IsBoolean,
   IsPositive,
@@ -19,6 +19,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
+// Models
 import Category from './Category';
 import Size from './Size';
 import Picture from './Picture';
@@ -43,31 +44,35 @@ export default class Product {
   @MaxLength(30)
   brand: string;
 
-  @ManyToMany(type => Category, products => Product, {
-    eager: true,
-    cascade: ['insert', 'update'],
-  })
+  @Column()
+  @IsNotEmpty()
+  @Min(0)
+  price: number;
+
+  @Column()
+  @IsNotEmpty()
+  @Min(0)
+  @Max(100)
+  interest: number; // If 0 interest-free, 2 = 2% per installment
+
+  @ManyToMany(() => Category, category => category.products)
   @JoinTable()
   categories: Category[];
 
-  @ManyToMany(type => Size, products => Product, {
-    eager: true,
-    cascade: ['insert', 'update'],
-  })
+  @ManyToMany(() => Size, size => size.products)
   @JoinTable()
   sizes: Size[];
 
-  @OneToMany(type => Picture, product => Product, {
-    cascade: ['insert', 'update'],
+  @OneToMany(() => Picture, picture => picture.product, {
+    cascade: true,
   })
   pictures: Picture[];
 
   @Column()
   @IsNotEmpty()
-  @IsPositive()
   @Min(0)
   @Max(100)
-  discount: number; // 0 - 100
+  discount: number; // In percentage, example: 20 means 20%
 
   @Column()
   @IsNotEmpty()

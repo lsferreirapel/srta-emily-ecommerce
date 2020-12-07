@@ -7,8 +7,11 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+
+// Validators
 import { IsNotEmpty, MaxLength } from 'class-validator';
 
+// Models
 import Product from './Product';
 
 @Entity('categories')
@@ -22,9 +25,7 @@ export default class Category {
   @MaxLength(40)
   name: string;
 
-  @ManyToMany(type => Product, categories => Category, {
-    cascade: ['insert', 'update'],
-  })
+  @ManyToMany(() => Product, product => product.categories)
   products: Product[];
 
   @CreateDateColumn({ name: 'created_At' })
