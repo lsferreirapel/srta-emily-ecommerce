@@ -2,6 +2,9 @@ import styled from 'styled-components';
 
 export default styled.div`
   /* Position */
+  position: absolute;
+  top: 7px;
+  right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
