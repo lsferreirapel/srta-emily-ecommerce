@@ -9,6 +9,7 @@ import Routes from './routes';
 
 /* Global style */
 import GlobalStyles from './styles/global';
+import '@brainhubeu/react-carousel/lib/style.css';
 
 const App: React.FC = () => (
   <>
